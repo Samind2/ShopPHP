@@ -1,14 +1,17 @@
 <?php
-require_once 'db.php';
+require_once 'db/connect.php';
 
-if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $name = $_POST['name'];
+    $category = $_POST['category'];
     $price = $_POST['price'];
-    $quantity = $_POST['quantity'];
+    $stock = $_POST['stock'];
+    $description = $_POST['description'];
 
-    $sql = "INSERT INTO products (name, price, quantity) VALUES ('$name', '$price', '$quantity')";
-    if ($conn->query($sql) === TRUE) {
+    $sql = "INSERT INTO products (name, category, price, stock, description) VALUES ('$name', '$category', '$price', '$stock', '$description')";
+    if ($conn->query($sql)) {
         header('Location: index.php');
+        exit();
     } else {
         echo "Error: " . $conn->error;
     }
@@ -19,16 +22,19 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>เพิ่มสินค้า</title>
+    <!-- เชื่อมต่อ style.css -->
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
     <h1>เพิ่มสินค้า</h1>
-    <form method="POST">
+    <form method="post">
         ชื่อสินค้า: <input type="text" name="name" required><br>
-        ราคา: <input type="number" name="price" step="0.01" required><br>
-        จำนวน: <input type="number" name="quantity" required><br>
-        <button type="submit">เพิ่ม</button>
+        หมวดหมู่: <input type="text" name="category" required><br>
+        ราคา: <input type="number" name="price" required><br>
+        สต็อก: <input type="number" name="stock" required><br>
+        รายละเอียด: <textarea name="description" required></textarea><br>
+        <button type="submit">บันทึก</button>
     </form>
 </body>
 </html>
